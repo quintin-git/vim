@@ -1,0 +1,3 @@
+winmanager.vmb: call delete('/root/.vim/doc/winmanager.txt')|call delete('/root/.vim/plugin/winfileexplorer.vim')|call delete('/root/.vim/plugin/winmanager.vim')|call delete('/root/.vim/plugin/wintagexplorer.vim')
+winmanager.vmb: call delete('/root/.vim/doc/winmanager.txt')|call delete('/root/.vim/plugin/winfileexplorer.vim')|call delete('/root/.vim/plugin/winmanager.vim')|call delete('/root/.vim/plugin/wintagexplorer.vim')
+tcomment.vba: call delete('/root/.vim/doc/tcomment.txt')|call delete('/root/.vim/plugin/tcomment.vim')|call delete('/root/.vim/autoload/tcomment.vim')

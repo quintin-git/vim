@@ -81,8 +81,8 @@ Plug 'OmniCppComplete'
 Plug 'SuperTab'
 Plug 'vim-dict'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'Tagbar'
-Plug 'WinManager'
+" Plug 'Tagbar'
+" Plug 'WinManager'
 Plug 'taglist.vim'
 Plug 'L9'
 Plug 'molokai'                       " 主题插件
@@ -90,17 +90,28 @@ Plug 'vim-airline'                   " 状态行插件
 Plug 'c.vim'                         " C-Support 插件
 Plug 'Yggdroot/indentLine'           " 显示空格符以及缩进标识
 Plug 'airblade/vim-gitgutter'        " 自动检测文件与git 上的是否有变化
-Plug 'motemen/git-vim'               " git 插件
+" Plug 'motemen/git-vim'               " git 插件
 Plug 'scrooloose/syntastic'          " 语法检测插件
 Plug 'mileszs/ack.vim'               " 搜索插件
 Plug 'dkprice/vim-easygrep'
 Plug 'Raimondi/delimitMate'          " 自动补全括号,引号插件
 Plug 'scrooloose/nerdcommenter'      " 快速注释插件
 Plug 'vim-scripts/vim-auto-save'     " 自动保存插件
-Plug 'juneedahamed/svnj.vim'         " svn 插件
-Plug 'vcscommand.vim'                " CVS/SVN/SVK/git/hg/bzr插件
-Plug 'gdbmgr'                        " 调试插件
+" Plug 'juneedahamed/svnj.vim'         " svn 插件
+" Plug 'vcscommand.vim'                " CVS/SVN/SVK/git/hg/bzr插件
+" Plug 'gdbmgr'                        " 调试插件
 Plug 'wakatime/vim-wakatime'         " 记录编程时间
+Plug 'xterm-color-table.vim'         " VIM 显示颜色值插件
+" Auto Insert code segment
+" Plug 'MarcWeber/vim-addon-mw-utils'
+" Plug 'tomtom/tlib_vim'
+" Plug 'garbas/vim-snipmate'           " 自动插入代码块
+" Options
+Plug 'honza/vim-snippets'
+" Plug 'doxygen/doxygen'
+Plug 'vim-scripts/DoxyGen-Syntax'    " 注释高亮插件
+Plug 'vim-scripts/Engspchk'          " 英文拼写检查
+Plug 'DoxygenToolkit.vim'
 
 call plug#end()
 
@@ -117,15 +128,23 @@ set showmode
 set showmatch
 set incsearch
 set hlsearch
+" 自动匹配与光标所在单词相同的
+highlight WordUnder guibg=#008080 ctermbg=6
+autocmd CursorMoved * exe printf('match WordUnder /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+" autocmd CursorHold * exe printf('match WordUnder /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+" autocmd CursorMoved * silent! exe printf('match WordUnder /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+" autocmd CursorMoved * silent! exe printf('match Underlined /\<%s\>/', expand('<cword>'))
+" autocmd CursorHold * silent! exe printf('match Underlined /\<%s\>/', expand('<cword>'))
 " 高亮汇编代码
 "let filetype_i="asm"
 let asmsyntax="nasm"
 " au BufNewFile,BufRead *.ASM set filetype=masm
 highlight WhitespaceEOL ctermbg=red guibg=red
-autocmd InsertLeave * set nocul
-autocmd InsertEnter * set cul
-autocmd WinLeave * set nocursorline nocursorcolumn
-autocmd WinEnter * set cursorline cursorcolumn
+set cursorline
+" autocmd InsertLeave * set nocul
+" autocmd InsertEnter * set cul
+" autocmd WinLeave * set nocursorline nocursorcolumn
+" autocmd WinEnter * set cursorline cursorcolumn
 " set cursorline cursorcolumn
 
 set mouse=a
@@ -173,7 +192,15 @@ au FileType vim setlocal dict+=~/.vim/dict/vim.dict
 highlight Pmenu    guibg=#303030      guifg=white   ctermbg=236   ctermfg=white
 highlight PmenuSel guibg=#00afaf      guifg=white   ctermbg=37    ctermfg=white
 
-" 配置EasyGrep
+" 配置 DoxyGen-Syntax
+set syntax=cpp.doxygen
+
+" 配置 snipMate
+let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
+let g:snipMate.scope_aliases = {}
+let g:snipMate.scope_aliases['ruby'] = 'ruby,rails'
+
+" 配置 EasyGrep
 let g:EasyGrepCommand=1
 let g:EasyGrepPerlStyle=1
 
@@ -248,6 +275,13 @@ let g:indentLine_fileType = ['c', 'cpp']
 let g:indentLine_fileTypeExclude = ['text', 'sh']
 let g:indentLine_leadingSpaceEnabled = 1
 
+" 配置 EasyGrep 插件
+let g:EasyGrepMode = 2
+let g:EasyGrepCommand = 0
+let g:EasyGrepRecursive = 1
+let g:EasyGrepIgnoreCase = 0
+let g:EasyGrepFilesToExclude = "*.bak,*~,cscope.*,*.a,*.o,*.pyc"
+
 " C-Support 配置
 let g:C_UseTool_cmake   = 'yes'
 let g:C_UseTool_doxygen = 'yes'
@@ -260,7 +294,7 @@ let g:gitgutter_sign_column_always = 1
 let g:gitgutter_enabled = 0     " 关闭gitgutter 否则vim 会变得很卡
 
 " Auto-Save 配置
-let g:auto_save = 1
+let g:auto_save = 0
 let g:auto_save_silent = 1
 autocmd CursorHoldI * call AutoSave()
 

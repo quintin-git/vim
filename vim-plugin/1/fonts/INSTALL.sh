@@ -2,7 +2,7 @@
 Cur_Dir=$(pwd)
 
 # echo copy fonts
-cp -r $Cur_Dir/fonts/consola /usr/share/fonts/
+cp -r $Cur_Dir/fonts/consola /usr/share/fonts
 cd /usr/share/fonts/consola/
 mkfontscale
 mkfontdir
